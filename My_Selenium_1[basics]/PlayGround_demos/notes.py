@@ -25,5 +25,5 @@ print(f'(type){wait_time_imp}')
 print(f'(type){wait_time}')
 
 
-
+input("Press Enter to close the browser...")
 driver.quit()

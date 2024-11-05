@@ -10,39 +10,39 @@ import time
 
 driver = webdriver.Chrome()
 
-#It is useful when working with pages where the loading time of elements may vary.
-#f.e. set to 10s, but page will load on 5s, so selenium will wait 5s only.
+# It is useful when working with pages where the loading time of elements may vary.
+# f.e. set to 10s, but page will load on 5s, so selenium will wait 5s only.
 wait_time_imp = 10
 driver.implicitly_wait(10)
 
-#open url
+# open url
 driver.get('http://demostore.supersqa.com')
 
 #==================================
-#always wait time set in variable
-#time.sleep(5)
+# always wait time set in variable
+# time.sleep(5)
 
 wait_time = 1
 time.sleep(wait_time)
 #==================================
 
-#Scroll down one page (Page Down) *2 simulates a double key press
+#S croll down one page (Page Down) *2 simulates a double key press
 body = driver.find_element(By.TAG_NAME, "body")
 body.send_keys(Keys.PAGE_DOWN * 2)
 #time.sleep(1)
 
-#Find element by link text - move to second search page
+# Find element by link text - move to second search page
 next_search_pg = driver.find_element(By.XPATH, '//*[@id="main"]/div[2]/nav/ul/li[3]/a')
 next_search_pg.click()
 
-#Select from dropdown list - use Select before (driver.find_element....)
-#then variable orderby_list . select_by_ (value , text ...)
+# Select from dropdown list - use Select before (driver.find_element....)
+# then variable orderby_list . select_by_ (value , text ...)
 orderby_list = Select(driver.find_element(By.CLASS_NAME, 'orderby'))
 time.sleep(2)
 orderby_list.select_by_value('popularity')
 time.sleep(2)
 
-#adding and move to cart
+# adding and move to cart
 addto_cart_beannie = driver.find_element(By.XPATH, '//*[@id="main"]/ul/li[4]/a[2]')
 addto_cart_beannie.click()
 time.sleep(2)
@@ -57,22 +57,25 @@ time.sleep(5)
 # <input type="number" id="quantity_672a0ac453902" class="input-text qty text" step="1" min="0" max="" name="cart[182be0c5cdcd5072bb1864cdee4d3d6e][qty]" value="1" title="Qty" size="4" placeholder="" inputmode="numeric" autocomplete="off">
 # <input type="number" id="quantity_672a046d26b2f" class="input-text qty text" step="1" min="0" max="" name="cart[182be0c5cdcd5072bb1864cdee4d3d6e][qty]" value="6" title="Qty" size="4" placeholder="" inputmode="numeric" autocomplete="off">
 
-# Czeka maksymalnie x sekund, aż element będzie obecny w DOM
+# Waits up to x seconds for the element to be present
 quantity_cart = WebDriverWait(driver, 5).until(
     EC.visibility_of_element_located((By.NAME, "cart[182be0c5cdcd5072bb1864cdee4d3d6e][qty]"))
 )
-# Utwórz obiekt ActionChains
+# Create ActionChains object
 actions = ActionChains(driver)
 
-# Wykonaj akcję najechania na element
+# Perform a hover action on the element.
 actions.move_to_element(quantity_cart).perform()
 quantity_cart.click()
 
 
-# Teraz możesz od razu operować na tym elemencie
-quantity_cart.clear()  # Czyści pole, jeśli jest to pole tekstowe
+# Now you can interact with this element right away.
+#“Clears the field if it is a text box.
+quantity_cart.clear()
 time.sleep(3)
-quantity_cart.send_keys("5")  # Ustawia wartość, np. na 5
+
+#Set to 5
+quantity_cart.send_keys("5")
 
 time.sleep(2)
 
